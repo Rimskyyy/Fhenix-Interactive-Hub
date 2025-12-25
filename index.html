@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fhenix Interactive Hub</title>
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0b0f1a;
+  color: #e6e6eb;
+}
+header {
+  background: #0f172a;
+  padding: 20px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+}
+header a {
+  color: #7dd3fc;
+  margin: 0 15px;
+  text-decoration: none;
+}
+section {
+  padding: 60px 10%;
+  border-bottom: 1px solid #1e293b;
+}
+h2 {
+  color: #7dd3fc;
+}
+.card {
+  background: #020617;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+input {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  width: 120px;
+  margin: 5px;
+}
+button {
+  background: #7dd3fc;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.result {
+  margin-top: 10px;
+  font-weight: bold;
+}
+.flex {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.box {
+  flex: 1;
+  min-width: 200px;
+  background: #020617;
+  padding: 20px;
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="#about">What is Fhenix?</a>
+  <a href="#fhe">FHE Playground</a>
+  <a href="#auction">Sealed Auction</a>
+  <a href="#why">Why Fhenix</a>
+</header>
+
+<section id="about">
+  <h2>🔐 What is Fhenix?</h2>
+  <div class="card">
+    <p>Fhenix allows smart contracts to work with <b>encrypted data</b>.  
+    Your balances, votes, and bids stay private — even while the blockchain uses them.</p>
+    <p><b>User → Encrypt → Blockchain → Compute → Decrypt → User</b></p>
+  </div>
+</section>
+
+<section id="fhe">
+  <h2>🧠 FHE Playground</h2>
+  <div class="card">
+    <input id="num1" placeholder="Number A">
+    <input id="num2" placeholder="Number B"><br><br>
+    <button onclick="encrypt()">Encrypt</button>
+    <button onclick="compute()">Compute</button>
+    <button onclick="decrypt()">Decrypt</button>
+
+    <div class="result" id="encA"></div>
+    <div class="result" id="encB"></div>
+    <div class="result" id="encSum"></div>
+    <div class="result" id="final"></div>
+  </div>
+</section>
+
+<section id="auction">
+  <h2>🏷 Sealed-Bid Auction</h2>
+  <div class="card">
+    Alice Bid: <input id="alice">
+    Bob Bid: <input id="bob"><br><br>
+    <button onclick="seal()">Seal Bids</button>
+    <button onclick="reveal()">Reveal Winner</button>
+
+    <div class="result" id="sealed"></div>
+    <div class="result" id="winner"></div>
+  </div>
+</section>
+
+<section id="why">
+  <h2>🛡 Why Fhenix?</h2>
+  <div class="flex">
+    <div class="box">
+      <h3>Normal Blockchain</h3>
+      <p>• Public balances<br>
+      • Public bids<br>
+      • Front-running possible</p>
+    </div>
+    <div class="box">
+      <h3>Fhenix</h3>
+      <p>• Encrypted data<br>
+      • Hidden bids<br>
+      • No front-running</p>
+    </div>
+  </div>
+</section>
+
+<script>
+let a,b,sum;
+
+function fakeEncrypt(x){
+  return "0x" + (x * 999).toString(16);
+}
+
+function encrypt(){
+  a = Number(document.getElementById("num1").value);
+  b = Number(document.getElementById("num2").value);
+  document.getElementById("encA").innerText = "Encrypted A: " + fakeEncrypt(a);
+  document.getElementById("encB").innerText = "Encrypted B: " + fakeEncrypt(b);
+}
+
+function compute(){
+  sum = a + b;
+  document.getElementById("encSum").innerText = "Encrypted Sum: " + fakeEncrypt(sum);
+}
+
+function decrypt(){
+  document.getElementById("final").innerText = "Decrypted Result: " + sum;
+}
+
+let aliceBid, bobBid;
+
+function seal(){
+  aliceBid = Number(document.getElementById("alice").value);
+  bobBid = Number(document.getElementById("bob").value);
+  document.getElementById("sealed").innerText = "Bids are sealed 🔒";
+}
+
+function reveal(){
+  let win = aliceBid > bobBid ? "Alice wins" : "Bob wins";
+  document.getElementById("winner").innerText = win;
+}
+</script>
+
+</body>
+</html>
